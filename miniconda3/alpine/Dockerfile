@@ -1,4 +1,4 @@
-FROM alpine:3.11 as alpine-glibc
+FROM alpine:3.12 as alpine-glibc
 
 #  $ docker build . -t continuumio/miniconda3:4.8.2-alpine
 #  $ docker push continuumio/miniconda3:4.8.2-alpine
@@ -55,7 +55,7 @@ ENV CONDA_MD5 87e77f097f6ebb5127c77662dfc3165e
 # Create non-root user, install dependencies, install Conda
 RUN addgroup -S anaconda && \
     adduser -D -u 10151 anaconda -G anaconda && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+    wget --quiet --no-check-certificate https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     echo "${CONDA_MD5}  Miniconda3-latest-Linux-x86_64.sh" > miniconda.md5 && \
     if [ $(md5sum -c miniconda.md5 | awk '{print $2}') != "OK" ] ; then exit 1; fi && \
     mv Miniconda3-latest-Linux-x86_64.sh miniconda.sh && \
